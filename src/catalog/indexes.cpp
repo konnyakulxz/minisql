@@ -10,6 +10,7 @@ IndexMetadata *IndexMetadata::Create(const index_id_t index_id, const string &in
 }
 
 uint32_t IndexMetadata::SerializeTo(char *buf) const {
+  //|MAGIC_NUM|index_id|name_len|name|table_id|key_cnt|key_map[key_cnt]|
   char *p = buf;
   uint32_t ofs = GetSerializedSize();
   ASSERT(ofs <= PAGE_SIZE, "Failed to serialize index info.");
@@ -40,7 +41,7 @@ uint32_t IndexMetadata::SerializeTo(char *buf) const {
 }
 
 uint32_t IndexMetadata::GetSerializedSize() const {
-  return 4+4+MACH_STR_SERIALIZED_SIZE(index_name_)+4+4+key_map_.size()*4;
+  return 4+4+4+index_name_.length()+4+4+key_map_.size()*4;
 }
 
 uint32_t IndexMetadata::DeserializeFrom(char *buf, IndexMetadata *&index_meta) {

@@ -1,6 +1,7 @@
 #include "catalog/table.h"
 
 uint32_t TableMetadata::SerializeTo(char *buf) const {
+  //|MAGIC_NUM|table_id|name_len|name|root_page_id|schema|
   char *p = buf;
   uint32_t ofs = GetSerializedSize();
   ASSERT(ofs <= PAGE_SIZE, "Failed to serialize table info.");
@@ -24,11 +25,8 @@ uint32_t TableMetadata::SerializeTo(char *buf) const {
   return ofs;
 }
 
-/**
- * TODO: Student Implement
- */
 uint32_t TableMetadata::GetSerializedSize() const {
-  return 4 + 4 + MACH_STR_SERIALIZED_SIZE(table_name_) + 4 + schema_->GetSerializedSize();
+  return 4+4+4+table_name_.length()+4+schema_->GetSerializedSize();
 }
 
 /**

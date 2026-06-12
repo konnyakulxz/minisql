@@ -60,9 +60,6 @@ class IndexInfo {
     delete key_schema_;
   }
 
-/**
- * TODO: Student Implement
- */
   void Init(IndexMetadata *meta_data, TableInfo *table_info, BufferPoolManager *buffer_pool_manager) {
     // Step1: init index metadata and table info
     meta_data_=meta_data;
