@@ -225,6 +225,7 @@ bool BPlusTree::CoalesceOrRedistribute(N *&node,Txn *transaction){
   if(node->IsRootPage()) return AdjustRoot(node);
   auto parent_page=buffer_pool_manager_->FetchPage(node->GetParentPageId());
   auto *parent=reinterpret_cast<InternalPage *>(parent_page->GetData());
+  page_id_t parent_id=parent->GetPageId();
   int index=parent->ValueIndex(node->GetPageId());//根据page id找到index
   int neighbor_index=(index==0)?1:index-1;//找到左邻居
   page_id_t neighbor_id=parent->ValueAt(neighbor_index);

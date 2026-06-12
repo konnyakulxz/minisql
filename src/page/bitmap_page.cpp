@@ -38,7 +38,7 @@ bool BitmapPage<PageSize>::DeAllocatePage(uint32_t page_offset){
 }
 
 template<size_t PageSize>
-bool BitmapPage<PageSize>::IsPageFree(uint32_t page_offset){
+bool BitmapPage<PageSize>::IsPageFree(uint32_t page_offset) const {
   size_t max_pages=GetMaxSupportedSize();
   if(page_offset>=max_pages) return false;
   return IsPageFreeLow(page_offset/8,page_offset%8);
