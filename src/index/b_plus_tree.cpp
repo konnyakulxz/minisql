@@ -17,6 +17,10 @@ BPlusTree::BPlusTree(index_id_t index_id,BufferPoolManager *buffer_pool_manager,
   int key_size=processor_.GetKeySize();
   if(leaf_max_size_==UNDEFINED_SIZE) leaf_max_size_=(PAGE_SIZE-LEAF_PAGE_HEADER_SIZE)/(key_size+sizeof(RowId))-100;
   if(internal_max_size_==UNDEFINED_SIZE) internal_max_size_=(PAGE_SIZE-INTERNAL_PAGE_HEADER_SIZE)/(key_size+sizeof(page_id_t))-100;
+  auto header_page=buffer_pool_manager_->FetchPage(INDEX_ROOTS_PAGE_ID);
+  auto *roots=reinterpret_cast<IndexRootsPage *>(header_page->GetData());
+  roots->GetRootId(index_id_,&root_page_id_);
+  buffer_pool_manager_->UnpinPage(INDEX_ROOTS_PAGE_ID,false);
 }
 
 void BPlusTree::Destroy(page_id_t current_page_id){//销毁以current为根的整棵树
