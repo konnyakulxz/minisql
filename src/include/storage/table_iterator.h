@@ -12,7 +12,7 @@ class TableIterator {
   // you may define your own constructor based on your member variables
   explicit TableIterator(TableHeap *table_heap, RowId rid, Txn *txn);
 
-  explicit TableIterator(const TableIterator &other);
+  TableIterator(const TableIterator &other);
 
   virtual ~TableIterator();
 
